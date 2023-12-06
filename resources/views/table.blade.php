@@ -23,19 +23,19 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($barangs as $barang )
+                            @foreach ($barang as $key )
                             <tr>
-                                <td>{{ $barang->id }}</td>
-                                <td>{{ $barang->Nama_Barang }}</td>
-                                <td>{{ $barang->Jenis_Barang }}</td>
-                                <td>{{ $barang->QTY }}</td>
-                                <td>Rp. {{ $barang->Harga }}</td>
-                                <td>Rp. {{ $barang->Total }}</td>
-                                <td>Rp. {{ $barang->Diskon }}</td>
-                                <td>Rp. {{ $barang->Total_Terbaru }}</td>
+                                <td>{{ $key->id }}</td>
+                                <td>{{ $key->Nama_Barang }}</td>
+                                <td>{{ $key->Jenis_Barang }}</td>
+                                <td>{{ $key->QTY }}</td>
+                                <td>Rp. {{ $key->Harga }}</td>
+                                <td>Rp. {{ $key->Total }}</td>
+                                <td>Rp. {{ $key->Diskon }}</td>
+                                <td>Rp. {{ $key->Total_Terbaru }}</td>
                                 <td>
-                                    <a href="{{ route('barangs.edit',['id' => $barang->id]) }}" class="btn btn-info btn-sm">Edit</a>
-                                    <a href="{{ route('barangs.destroy', ['id' => $barang->id]) }}" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')" class="btn btn-danger btn-sm">Delete</a>
+                                    <a href="{{ route('barangs.edit',['id' => $key->id]) }}" class="btn btn-info btn-sm">Edit</a>
+                                    <a href="{{ route('barangs.destroy', ['id' => $key->id]) }}" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')" class="btn btn-danger btn-sm">Delete</a>
                                 </td>
                             </tr>
                             @endforeach

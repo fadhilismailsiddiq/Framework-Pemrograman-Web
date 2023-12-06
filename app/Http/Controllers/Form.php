@@ -9,7 +9,8 @@ class Form extends Controller
 {
     public function index()
     {
-        return view('form');
+        $barang = Barang::all();
+        return view('form', ['barang'=>$barang]);
     }
 
     public function create()
@@ -59,7 +60,7 @@ class Form extends Controller
         ]);
 
         // Redirect atau berikan respons sesuai kebutuhan
-        return redirect()->route('form.index')->with('success', 'Data berhasil disimpan.');
+        return view ('table');
     }
 
     /**

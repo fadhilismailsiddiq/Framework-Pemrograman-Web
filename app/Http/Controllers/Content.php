@@ -3,12 +3,15 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Barang;
 
 class Content extends Controller
 {
     public function index()
     {
-        return view('main');
+        $barang = Barang::orderBy('created_at','desc')->get();
+
+        return view('main', compact('barang'));
     }
 
     public function create()

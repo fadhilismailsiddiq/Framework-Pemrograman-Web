@@ -12,8 +12,8 @@ class BarangController extends Controller
      */
     public function index()
     {
-        $barangs = Barang::all();
-        return view('table', compact('barangs'));
+        $barang = Barang::all();
+        return view('table', ['barang'=>$barang]);
     }
 
     /**
@@ -61,10 +61,6 @@ class BarangController extends Controller
     {
         $barang = Barang::find($id);
 
-        if (!$barang) {
-            return redirect()->route('barangs.index')->with('error', 'Barang not found.');
-        }
-
         return view('edit', compact('barang'));
     }
 
@@ -73,56 +69,20 @@ class BarangController extends Controller
      */
     public function update(Request $request, string $id)
 {
-    $barang = Barang::find($id);
+    $data=[
+        'Kode_Barang' => $request->Kode_Barang,
+            'Nama_Barang'=> $request-> Nama_Barang,
+            'Jenis_Barang' => $request-> Jenis_Barang,
+            'QTY' => $request-> QTY,
+            'Harga' => $request-> Harga,
+            // 'Total' => $request-> total,
+            // 'Diskon' => $request-> diskon,
+            // 'Total_Terbaru' => $request-> totalterbaru
+    ];
 
-    if (!$barang) {
-        return redirect()->route('barangs.index')->with('error', 'Barang not found.');
-    }
+    $barang = Barang::find($id)->update($data);
 
-    // Implementasi logika validasi dan pembaruan data
-    $request->validate([
-        'kodeBarang' => 'required',
-        'namaBarang' => 'required',
-        'jenisBarang' => 'required',
-        'qty' => 'required|numeric',
-        'harga' => 'required|numeric',
-    ]);
-
-    // Update data barang
-    $barang->update([
-        'Kode_Barang' => $request->kodeBarang,
-        'Nama_Barang'=> $request->namaBarang,
-        'Jenis_Barang' => $request->jenisBarang,
-        'QTY' => $request->qty,
-        'Harga' => $request->harga,
-    ]);
-
-    // Hitung total dan diskon baru
-    $total = $request->qty * $request->harga;
-    $diskon = 0;
-    $totalTerbaru = $total;
-
-    if ($total >= 100000 && $total < 200000) {
-        $diskon = $total * 0.1;
-        $totalTerbaru = $total - $diskon;
-    } elseif ($total >= 200000 && $total < 500000) {
-        $diskon = $total * 0.2;
-        $totalTerbaru = $total - $diskon;
-    } elseif ($total >= 500000) {
-        $diskon = $total * 0.5;
-        $totalTerbaru = $total - $diskon;
-    }
-
-    // Update data diskon dan total terbaru
-    $barang->update([
-        'Total' => $total,
-        'Diskon' => $diskon,
-        'Total_Terbaru' => $totalTerbaru,
-    ]);
-
-    return redirect()->route('barangs.index')->with('success', 'Barang updated successfully');
-
-    return view('table', compact('barangs'));
+    return redirect('/table');
 }
 
     /**
@@ -130,14 +90,7 @@ class BarangController extends Controller
      */
     public function destroy(string $id)
     {
-        $barang = Barang::find($id);
-
-        if (!$barang) {
-            return redirect()->route('barangs.index')->with('error', 'Barang not found.');
-        }
-
-        $barang->delete();
-
-        return redirect()->route('barangs.index')->with('success', 'Barang deleted successfully');
+        $barang = Barang::find($id)->delete();
+        return redirect('/table');
     }
 }
